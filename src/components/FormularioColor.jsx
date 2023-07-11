@@ -1,26 +1,65 @@
 import { Button, Container, Row, Form } from "react-bootstrap";
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import "./bloqueColor.css";
 import GrillaColores from "./GrillaColores";
+import Swal from "sweetalert2";
+import { consultaAgregarColor, consultaColores } from "./helpers/queris";
 
 const FormularioColor = () => {
-    let coloresLocalStorage = JSON.parse(localStorage.getItem("ListaColores")) || [];
-    const [color, setColor] = useState("");
-    const [colores, setColores] = useState(coloresLocalStorage);
+    const [color, setColor] = useState({});
+    const [colores, setColores] = useState([]);
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm();
 
     useEffect(() => {
-        localStorage.setItem("listaColores", JSON.stringify(colores));
-    }, [colores]);
+        consultaColores().then((respuesta) => {
+            setColores(respuesta);
+        });
+    }, []);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        setColores([...colores, color]);
-        setColor("");
-    };
+    const onSubmit = (colorNuevo) => {
+        const objetoColor = {};
+        const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+        const rgbRegex = /^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$/;
 
-    const borrarColor = (nombreColor) => {
-        let copiaColores = colores.filter((itemColor) => itemColor !== nombreColor);
-        setColores(copiaColores);
+        if (hexRegex.test(colorNuevo.color)) {
+            objetoColor.codigoHEX = colorNuevo.color;
+        } else if (rgbRegex.test(colorNuevo.color)) {
+            objetoColor.codigoRGB = colorNuevo.color;
+        } else if (CSS.supports("color", colorNuevo.color.toLowerCase())) {
+            objetoColor.nombreColor = colorNuevo.color;
+        } else {
+            return Swal.fire(
+                          "Ocurrio un error",
+                          `El color ${colorNuevo.color} no es un color valido, intentelo nuevamente`,
+                          "error"
+                      );
+        }
+        consultaAgregarColor(objetoColor).then((respuestaCreated) => {
+            if (respuestaCreated && respuestaCreated.status === 201) {
+                Swal.fire(
+                    "Color creado",
+                    `La tarea ${colorNuevo.color} fue creada correctamente`,
+                    "success"
+                );
+                reset();
+                consultaColores().then((respuesta) => {
+                    setColores(respuesta);
+                });
+            } else {
+                Swal.fire(
+                    "Ocurrio un error",
+                    `La tarea ${tareaNueva.nombreProducto} no fue creada, intentelo mas tarde`,
+                    "error"
+                );
+            }
+        });
     };
 
     return (
@@ -28,20 +67,27 @@ const FormularioColor = () => {
             <Container className="d-flex align-items-center mb-5">
                 <div
                     className="rounded border colorDisplay"
-                    style={{ backgroundColor: color }}
+                    style={{ backgroundColor: color.color }}
                 ></div>
-                <Form onSubmit={handleSubmit} className="flex-grow-1 ms-3">
+                <Form onSubmit={handleSubmit(onSubmit)} className="flex-grow-1 ms-3">
                     <Form.Group
                         className="mb-3 d-flex flex-column align-items-end gap-4"
                         controlId="color"
                     >
+                        <Form.Text className="text-danger">{errors.nombreTarea?.message}</Form.Text>
                         <Form.Control
                             type="text"
                             placeholder="Ingrese un color"
-                            onChange={(e) => setColor(e.target.value)}
-                            value={color}
                             required
                             maxLength={30}
+                            {...register("color", {
+                                required: "Debe ingresar un color",
+                                maxLength: {
+                                    value: 30,
+                                    message: "La cantidad máxima de caracteres es de 30 dígitos",
+                                },
+                            })}
+                            onChange={(e) => setColor({ color: e.target.value })}
                         />
                         <Button className="w-25" variant="primary" type="submit">
                             Guardar
@@ -49,9 +95,8 @@ const FormularioColor = () => {
                     </Form.Group>
                 </Form>
             </Container>
-            <hr className="text-light my-4" />
             <Container>
-                <GrillaColores colores={colores} borrarColor={borrarColor}></GrillaColores>
+                <GrillaColores colores={colores} setColores={setColores}></GrillaColores>
             </Container>
         </>
     );

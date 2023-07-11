@@ -1,0 +1,24 @@
+{
+  "colores": [
+    {
+      "id": 1,
+      "nombreColor": "red"
+    },
+    {
+      "id": 2,
+      "codigoHEX": "#008000"
+    },
+    {
+      "id": 3,
+      "codigoRGB": "rgb(0,0,255)"
+    },
+    {
+      "codigoHEX": "#333",
+      "id": 5
+    },
+    {
+      "nombreColor": "white",
+      "id": 6
+    }
+  ]
+}
