@@ -2,21 +2,27 @@
   "colores": [
     {
       "id": 1,
-      "nombreColor": "red",
-      "codigoHEX": "",
-      "codigoRGB": ""
+      "nombreColor": "red"
     },
     {
       "id": 2,
-      "nombreColor": "",
-      "codigoHEX": "#008000",
-      "codigoRGB": ""
+      "codigoHEX": "#008000"
     },
     {
       "id": 3,
-      "nombreColor": "",
-      "codigoHEX": "",
       "codigoRGB": "rgb(0,0,255)"
+    },
+    {
+      "nombreColor": "blue",
+      "id": 4
+    },
+    {
+      "codigoHEX": "#000",
+      "id": 5
+    },
+    {
+      "nombreColor": "white",
+      "id": 6
     }
   ]
 }
