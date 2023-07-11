@@ -96,7 +96,7 @@ const FormularioColor = () => {
                 </Form>
             </Container>
             <Container>
-                <GrillaColores colores={colores}></GrillaColores>
+                <GrillaColores colores={colores} setColores={setColores}></GrillaColores>
             </Container>
         </>
     );
