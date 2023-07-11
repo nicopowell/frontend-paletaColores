@@ -5,9 +5,9 @@ const CardGrilla = ({itemColor, borrarColor}) => {
     return (
         <Col>
           <Card className="bg-dark text-light">
-          <div style={{background:itemColor}} className="colorDisplay w-100" ></div>
+          <div style={{background:itemColor.nombreColor || itemColor.codigoHEX || itemColor.codigoRGB}} className="colorDisplay w-100" ></div>
             <Card.Body className="text-center">
-              <Card.Title>{itemColor}</Card.Title>
+              <Card.Title>{itemColor.nombreColor || itemColor.codigoHEX || itemColor.codigoRGB}</Card.Title>
               <button className="btn btn-danger rounded" onClick={()=>borrarColor(itemColor)}>Borrar</button>
             </Card.Body>
           </Card>

@@ -4,44 +4,41 @@ import { useForm } from "react-hook-form";
 import "./bloqueColor.css";
 import GrillaColores from "./GrillaColores";
 import Swal from "sweetalert2";
+import { consultaColores } from "./helpers/queris";
 
 const FormularioColor = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-} = useForm();
-
-    let coloresLocalStorage = JSON.parse(localStorage.getItem("ListaColores")) || [];
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+        reset,
+    } = useForm();
     const [color, setColor] = useState("");
-    const [colores, setColores] = useState(coloresLocalStorage);
+    const [colores, setColores] = useState([]);
 
     useEffect(() => {
-        localStorage.setItem("listaColores", JSON.stringify(colores));
-    }, [colores]);
+        consultaColores().then((respuesta) => {
+            setColores(respuesta);
+        });
+    }, []);
 
-    const onSubmit = (tareaNueva) => {
-      consultaAgregarTarea(tareaNueva).then((respuestaCreated) => {
-          if (respuestaCreated && respuestaCreated.status === 201) {
-              Swal.fire(
-                  "Tarea creada",
-                  `La tarea ${tareaNueva.nombreTarea} fue creada correctamente`,
-                  "success"
-              );
-              reset();
-              consultaListaTareas().then((respuesta) => {
-                  setTareas(respuesta);
-              });
-          } else {
-              Swal.fire(
-                  "Ocurrio un error",
-                  `La tarea ${tareaNueva.nombreProducto} no fue creada, intentelo mas tarde`,
-                  "error"
-              );
-          }
-      });
-  };
+    const onSubmit = (colorNuevo) => {
+        consultaAgregarTarea(colorNuevo).then((respuestaCreated) => {
+            if (respuestaCreated && respuestaCreated.status === 201) {
+                Swal.fire("Color creado", `El color fue creado correctamente`, "success");
+                reset();
+                consultaListaTareas().then((respuesta) => {
+                    setTareas(respuesta);
+                });
+            } else {
+                Swal.fire(
+                    "Ocurrio un error",
+                    `La tarea ${tareaNueva.nombreProducto} no fue creada, intentelo mas tarde`,
+                    "error"
+                );
+            }
+        });
+    };
 
     const borrarColor = (nombreColor) => {
         let copiaColores = colores.filter((itemColor) => itemColor !== nombreColor);
