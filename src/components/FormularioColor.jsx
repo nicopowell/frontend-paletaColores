@@ -25,8 +25,8 @@ const FormularioColor = () => {
 
     const onSubmit = (colorNuevo) => {
         const objetoColor = {};
-        let hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-        let rgbRegex = /^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$/;
+        const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
+        const rgbRegex = /^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$/;
 
         if (hexRegex.test(colorNuevo.color)) {
             objetoColor.codigoHEX = colorNuevo.color;
