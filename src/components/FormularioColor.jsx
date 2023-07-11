@@ -43,7 +43,7 @@ const FormularioColor = () => {
                             required
                             maxLength={30}
                         />
-                        <Button className="w-25" variant="primary" type="submit">
+                        <Button className="py-3 px-5" variant="primary" type="submit">
                             Guardar
                         </Button>
                     </Form.Group>
