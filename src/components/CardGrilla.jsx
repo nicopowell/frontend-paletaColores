@@ -18,7 +18,7 @@ const CardGrilla = ({ itemColor, setColores }) => {
             cancelButtonText: "Cancelar",
         }).then((result) => {
             if (result.isConfirmed) {
-                consultaBorrarColor(itemColor.id).then((respuesta) => {
+                consultaBorrarColor(itemColor._id).then((respuesta) => {
                     if (respuesta.status === 200) {
                         Swal.fire(
                             "Color eliminado",
@@ -90,7 +90,7 @@ const CardGrilla = ({ itemColor, setColores }) => {
                     </Card.Title>
                     <button
                         className="btn btn-warning rounded me-2"
-                        onClick={() => editarColor(itemColor.id)}
+                        onClick={() => editarColor(itemColor._id)}
                     >
                         Editar
                     </button>
