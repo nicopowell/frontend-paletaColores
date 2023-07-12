@@ -27,7 +27,6 @@ const FormularioColor = () => {
         const objetoColor = {};
         const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
         const rgbRegex = /^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$/;
-
         if (hexRegex.test(colorNuevo.color)) {
             objetoColor.codigoHEX = colorNuevo.color;
         } else if (rgbRegex.test(colorNuevo.color)) {
@@ -45,7 +44,7 @@ const FormularioColor = () => {
             if (respuestaCreated && respuestaCreated.status === 201) {
                 Swal.fire(
                     "Color creado",
-                    `La tarea ${colorNuevo.color} fue creada correctamente`,
+                    `El color ${colorNuevo.color} fue creado correctamente`,
                     "success"
                 );
                 reset();
@@ -55,7 +54,7 @@ const FormularioColor = () => {
             } else {
                 Swal.fire(
                     "Ocurrio un error",
-                    `La tarea ${tareaNueva.nombreProducto} no fue creada, intentelo mas tarde`,
+                    `El color ${colorNuevo.color} no fue creada, intentelo mas tarde`,
                     "error"
                 );
             }
