@@ -40,7 +40,7 @@ const CardGrilla = ({ itemColor, setColores }) => {
     };
     const editarColor = (id) => {
         const hexRegex = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
-        const rgbRegex = /^rgb\((\d{1,3}), (\d{1,3}), (\d{1,3})\)$/;
+        const rgbRegex = /^rgb\((\d{1,3}),\s*(\d{1,3}),\s*(\d{1,3})\)$/;
         const objetoColor = {};
         Swal.fire({
             title: "Editar color",
